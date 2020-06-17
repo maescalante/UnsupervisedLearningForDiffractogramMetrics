@@ -4,7 +4,7 @@ from sklearn.manifold import TSNE
 currentFile = 'DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
 mat, labels = fun.readMatrix(currentFile)
 
-label_dict = fun.create_dictonary(labels)
+label_dict = fun.create_dictionary(labels)
 
 color_dict = {
     'Ag2Se': 'bo',
