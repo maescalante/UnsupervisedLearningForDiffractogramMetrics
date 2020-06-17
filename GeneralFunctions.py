@@ -58,9 +58,15 @@ def plot(label_dict, X):
 
     for k in label_dict:
         col=randomColor()
+        label= k
+        cont=0
         for j in label_dict[k]:
-            plt.plot(X[j:, 0], X[j:, 1], 'o', c=col)
-
+            if cont==0:
+                plt.plot(X[j:, 0], X[j:, 1], 'o', c=col, label=label)
+                cont=1
+            else:
+                plt.plot(X[j:, 0], X[j:, 1], 'o', c=col)
+    plt.legend()
     plt.show()
 
 

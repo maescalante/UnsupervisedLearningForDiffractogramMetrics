@@ -7,8 +7,8 @@ currentFile='DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
 mat,labels=fun.readMatrix(currentFile)
 mat = np.array(mat, dtype=np.float64)
 
-
-embedding = MDS(n_components=2,dissimilarity='precomputed')
+seed = np.random.RandomState(seed=6)
+embedding = MDS(n_components=2,dissimilarity='precomputed',random_state=seed)
 X_transformed = embedding.fit_transform(mat)
 
 dic=fun.create_dictionary(labels)
