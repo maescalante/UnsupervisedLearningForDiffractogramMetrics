@@ -2,9 +2,10 @@ import csv
 import matplotlib.pyplot as plt
 import random
 
-#Function for importing a distance matrix from a cvs file into a python matrix
-def readMatrix (filename):
-    matrix=[]
+
+# Function for importing a distance matrix from a cvs file into a python matrix
+def readMatrix(filename):
+    matrix = []
 
     with open(filename) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -12,18 +13,19 @@ def readMatrix (filename):
         for row in csv_reader:
             fila = []
             if line_count == 0:
-                labels=row
+                labels = row
                 line_count += 1
             else:
-                line=0
+                line = 0
                 for j in row:
-                    if line!=0:
+                    if line != 0:
                         fila.append(j)
 
-                    line+=1
+                    line += 1
                 matrix.append(fila)
 
     return matrix, labels
+
 
 def create_dictionary(labels):
     """
@@ -57,17 +59,17 @@ def plot(label_dict, X):
     """
 
     for k in label_dict:
-        col=randomColor()
-        label= k
-        cont=0
+        col = randomColor()
+        label = k
+        cont = 0
         for j in label_dict[k]:
-            if cont==0:
+            if cont == 0:
                 plt.plot(X[j:, 0], X[j:, 1], 'o', c=col, label=label)
-                cont=1
+                cont = 1
             else:
                 plt.plot(X[j:, 0], X[j:, 1], 'o', c=col)
     plt.legend()
-    plt.show()
+    return plt
 
 
 def randomColor():
