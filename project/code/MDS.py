@@ -18,9 +18,9 @@ class Mds():
         embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed)
         X_transformed = embedding.fit_transform(mat)
 
-        dic = fun.create_dictionary(labels)
 
-        plt = fun.plot(dic, X_transformed)
+
+        plt = fun.plot(labels, X_transformed)
 
         plt.savefig(self.path_to_results + 'mds.png')
 

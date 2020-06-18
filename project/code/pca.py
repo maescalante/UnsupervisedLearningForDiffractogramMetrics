@@ -1,8 +1,9 @@
+from sklearn.decomposition import PCA
+import numpy as np
 from project.code import GeneralFunctions as fun
-from sklearn.manifold import TSNE
 
 
-class Sne():
+class Pca():
 
     def __init__(self):
         self.path_to_file = 'project/resources/'
@@ -11,15 +12,15 @@ class Sne():
 
     def run(self):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
+        mat = np.array(mat, dtype=np.float64)
+        pca = PCA(n_components=2)
+        principalComponents = pca.fit_transform(mat)
 
 
+        plt = fun.plot(labels, principalComponents)
 
-        X_embedded = TSNE(n_components=2).fit_transform(mat)
-
-        plt = fun.plot(labels, X_embedded)
-        plt.savefig(self.path_to_results + 't-sne.png')
-
+        plt.savefig(self.path_to_results + 'pca.png')
 
 def main():
-    sne = Sne()
-    sne.run()
+    pca = Pca()
+    pca.run()

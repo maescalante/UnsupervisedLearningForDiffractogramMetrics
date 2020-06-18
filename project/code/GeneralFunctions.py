@@ -50,7 +50,7 @@ def create_dictionary(labels):
     return d
 
 
-def plot(label_dict, X):
+def plot(labels, X):
     """
 
     :param label_dict: dictonary with index of every label
@@ -58,16 +58,25 @@ def plot(label_dict, X):
     :param color_dict:
     """
 
+    label_dict= create_dictionary(labels)
+
     for k in label_dict:
         col = randomColor()
         label = k
+
+        flag=0
         cont = 0
         for j in label_dict[k]:
-            if cont == 0:
-                plt.plot(X[j:, 0], X[j:, 1], 'o', c=col, label=label)
-                cont = 1
+            if flag == 0:
+                plt.plot(X[j-1, 0], X[j-1, 1], 'o', c=col, label=label)
+                flag=1
             else:
-                plt.plot(X[j:, 0], X[j:, 1], 'o', c=col)
+
+                plt.plot(X[j-1,0], X[j-1,1], 'o', c=col)
+                plt.annotate(str(cont),xy=(X[j-1,0], X[j-1,1]))
+       
+            cont+=1
+
     plt.legend()
     return plt
 
@@ -81,3 +90,4 @@ def randomColor():
 
     color = (r, g, b)
     return color
+

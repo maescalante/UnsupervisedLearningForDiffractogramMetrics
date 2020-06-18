@@ -1,8 +1,9 @@
 from project.code import GeneralFunctions as fun
-from sklearn.manifold import TSNE
+from sklearn.manifold import Isomap
+import numpy as np
 
 
-class Sne():
+class ISOMAP():
 
     def __init__(self):
         self.path_to_file = 'project/resources/'
@@ -11,15 +12,18 @@ class Sne():
 
     def run(self):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
+        mat = np.array(mat, dtype=np.float64)
+
+        embedding = Isomap(n_components=2)
+
+        X_transformed = embedding.fit_transform(mat)
 
 
+        plt = fun.plot(labels, X_transformed)
 
-        X_embedded = TSNE(n_components=2).fit_transform(mat)
-
-        plt = fun.plot(labels, X_embedded)
-        plt.savefig(self.path_to_results + 't-sne.png')
+        plt.savefig(self.path_to_results + 'isomap.png')
 
 
 def main():
-    sne = Sne()
-    sne.run()
+    iso = ISOMAP()
+    iso.run()
