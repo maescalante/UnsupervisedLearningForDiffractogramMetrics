@@ -14,7 +14,7 @@ class Mds():
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
 
-        seed = np.random.RandomState(seed=6)
+        seed = np.random.RandomState(seed=3)
         embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed)
         X_transformed = embedding.fit_transform(mat)
 
@@ -23,6 +23,8 @@ class Mds():
         plt = fun.plot(labels, X_transformed)
 
         plt.savefig(self.path_to_results + 'mds.png')
+
+        print('Error: ', str(fun.error(mat, X_transformed)) + '%')
 
 
 def main():
