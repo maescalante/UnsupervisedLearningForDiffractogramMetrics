@@ -22,6 +22,7 @@ class ISOMAP():
         plt = fun.plot(labels, X_transformed)
 
         plt.savefig(self.path_to_results + 'isomap.png')
+        print('Error: ', str(fun.error(mat, X_transformed)) + '%')
 
 
 def main():

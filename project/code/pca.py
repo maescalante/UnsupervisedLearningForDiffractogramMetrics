@@ -20,6 +20,7 @@ class Pca():
         plt = fun.plot(labels, principalComponents)
 
         plt.savefig(self.path_to_results + 'pca.png')
+        print('Error: ', str(fun.error(mat, principalComponents)) + '%')
 
 def main():
     pca = Pca()
