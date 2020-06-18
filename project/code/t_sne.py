@@ -1,5 +1,6 @@
 from project.code import GeneralFunctions as fun
 from sklearn.manifold import TSNE
+import numpy as np
 
 
 class Sne():
@@ -11,13 +12,17 @@ class Sne():
 
     def run(self):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
+        mat = np.array(mat, dtype=np.float64)
 
         label_dict = fun.create_dictionary(labels)
 
-        X_embedded = TSNE(n_components=2).fit_transform(mat)
-
+        seed = np.random.RandomState(seed=5)
+        X_embedded = TSNE(n_components=2,  random_state=seed).fit_transform(mat)
         plt = fun.plot(label_dict, X_embedded)
         plt.savefig(self.path_to_results + 't-sne.png')
+
+
+        print('Error: ', str(fun.error(mat, X_embedded)) + '%')
 
 
 def main():
