@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import random
 import math
 import numpy as np
+from mpl_toolkits import mplot3d
+
 
 
 # Function for importing a distance matrix from a cvs file into a python matrix
@@ -82,7 +84,14 @@ def plot(labels, X):
     plt.legend()
     return plt
 
+def plot3d(labels, X):
 
+    label_dict = create_dictionary(labels)
+    fig = plt.figure()
+    ax = plt.axes(projection='3d')
+
+    ax.scatter3D(X[:,0], X[:,1], X[:,2]);
+    return plt
 
 def randomColor():
     r = random.random()
