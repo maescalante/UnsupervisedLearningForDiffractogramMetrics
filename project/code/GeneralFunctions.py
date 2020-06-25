@@ -90,7 +90,30 @@ def plot3d(labels, X):
     fig = plt.figure()
     ax = plt.axes(projection='3d')
 
-    ax.scatter3D(X[:,0], X[:,1], X[:,2]);
+    for k in label_dict:
+        col = randomColor()
+        label = k
+
+        flag = 0
+        cont = 0
+        for j in label_dict[k]:
+            if flag == 0:
+                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', c=col, label=label)
+                flag = 1
+            else:
+
+                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', c=col)
+                x=X[j-1,0]
+
+                y=X[j-1,1]
+                z=X[j - 1, 2]
+                ax.text(x,y,z, cont,'x')
+
+
+            cont += 1
+
+    plt.legend()
+    plt.show()
     return plt
 
 def randomColor():
