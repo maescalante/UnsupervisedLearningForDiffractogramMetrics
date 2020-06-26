@@ -1,5 +1,5 @@
 from project.code.dimensonality_reduction import pca, t_sne, isomap, MDS
-
+from project.code.clustering import hierarchical
 
 def run(p):
     print('--- APP RUNNING ---')
@@ -11,3 +11,5 @@ def run(p):
         pca.main()
     if p=='isomap':
         isomap.main()
+    if p== 'hierarchical':
+        hierarchical.main()
