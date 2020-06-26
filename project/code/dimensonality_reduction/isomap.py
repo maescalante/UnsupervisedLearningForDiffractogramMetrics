@@ -29,7 +29,7 @@ class ISOMAP():
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot3d(labels, X_transformed3d)
         plt3d.savefig(self.path_to_results + 'isomap3D.png')
-
+        print('Error: ', str(fun.error_3d(mat, X_transformed3d)) + '%')
 
 def main():
     iso = ISOMAP()
