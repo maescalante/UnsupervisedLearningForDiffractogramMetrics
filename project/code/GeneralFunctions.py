@@ -98,11 +98,11 @@ def plot3d(labels, X):
         cont = 0
         for j in label_dict[k]:
             if flag == 0:
-                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', c=col, label=label)
+                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', color=col, label=label)
                 flag = 1
             else:
 
-                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', c=col)
+                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', color=col)
                 x=X[j-1,0]
 
                 y=X[j-1,1]

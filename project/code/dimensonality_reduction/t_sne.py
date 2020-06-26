@@ -23,6 +23,12 @@ class Sne():
 
         print('Error: ', str(fun.error(mat, X_embedded)) + '%')
 
+        seed3d = np.random.RandomState(seed=5)
+        embedding3d = TSNE(n_components=3, random_state=seed3d)
+        X_transformed3d = embedding3d.fit_transform(mat)
+        plt3d = fun.plot3d(labels, X_transformed3d)
+        plt3d.savefig(self.path_to_results + 'tsne3D.png')
+
 
 def main():
     sne = Sne()
