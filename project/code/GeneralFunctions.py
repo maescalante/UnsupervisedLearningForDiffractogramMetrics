@@ -135,6 +135,14 @@ def euclidean_distance(X):
         ans.append(l)
     return ans
 
+def euclidean_distance_3d(X):
+    ans = []
+    for x in X:
+        l = []
+        for x2 in X:
+            l.append(float(math.sqrt((x[0] - x2[0]) ** 2 + (x[1] - x2[1]) ** 2)) + (x[2] - x2[2]) ** 2)
+        ans.append(l)
+    return ans
 
 def normalizar(m):
     maximo = m.max()
@@ -142,6 +150,13 @@ def normalizar(m):
 
 def error(m, x):
     distancias = euclidean_distance(x)
+    distancias = np.array(distancias, dtype=np.float64)
+    m1 = normalizar(distancias)
+    m2 = normalizar(m)
+    return round(100*sum(sum(abs(np.subtract(m1, m2)))) / (91 * 91), 2)
+
+def error_3d(m, x):
+    distancias = euclidean_distance_3d(x)
     distancias = np.array(distancias, dtype=np.float64)
     m1 = normalizar(distancias)
     m2 = normalizar(m)

@@ -32,7 +32,7 @@ class Mds():
 
         plt3d=fun.plot3d(labels,X_transformed3d)
         plt3d.savefig(self.path_to_results + 'mds3D.png')
-        #print('Error: ', str(fun.error(mat, X_transformed)) + '%')
+        print('Error: ', str(fun.error_3d(mat, X_transformed3d)) + '%')
 
 
 def main():
