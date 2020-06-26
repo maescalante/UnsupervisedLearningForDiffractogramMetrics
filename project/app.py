@@ -1,4 +1,4 @@
-from project.code import t_sne, MDS,pca,isomap
+from project.code.dimensonality_reduction import pca, t_sne, isomap, MDS
 
 
 def run(p):
