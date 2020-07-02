@@ -84,6 +84,59 @@ def plot(labels, X):
     plt.legend()
     return plt
 
+
+def create_dictionary2(labels):
+    """
+
+    :param labels: labels of the samples
+    :return: dictonary with index of every label
+    """
+    d = {}
+
+    i = 0
+    for l in labels:
+        if l:
+            if l not in d:
+                d[l] = [i]
+            else:
+                lista = d[l]
+                lista.append(i)
+                d[l] = lista
+        i += 1
+
+    return d
+
+def plot2(labels, X):
+    """
+
+    :param label_dict: dictonary with index of every label
+    :param X: X after Dimentinality reduction
+    :param color_dict:
+    """
+
+    label_dict = create_dictionary2(labels)
+
+    for k in label_dict:
+        col = randomColor()
+        label = k
+
+        flag = 0
+        cont = 0
+        for j in label_dict[k]:
+            if flag == 0:
+                plt.plot(X[j - 1, 0], X[j - 1, 1], 'o', c=col, label=label)
+                flag = 1
+            else:
+
+                plt.plot(X[j - 1, 0], X[j - 1, 1], 'o', c=col)
+                plt.annotate(str(cont), xy=(X[j - 1, 0], X[j - 1, 1]))
+
+            cont += 1
+
+    plt.legend()
+    return plt
+
+
 def plot3d(labels, X):
 
     label_dict = create_dictionary(labels)

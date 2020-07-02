@@ -1,15 +1,19 @@
 from project.code.dimensonality_reduction import pca, t_sne, isomap, MDS
 from project.code.clustering import hierarchical
+from project.code.clustering import k_means
+
 
 def run(p):
     print('--- APP RUNNING ---')
     if p == 'sne':
         t_sne.main()
-    if p == 'mds':
+    elif p == 'mds':
         MDS.main()
-    if p=='pca':
+    elif p == 'pca':
         pca.main()
-    if p=='isomap':
+    elif p == 'isomap':
         isomap.main()
-    if p== 'hierarchical':
+    elif p== 'hierarchical':
         hierarchical.main()
+    elif p == 'k-means':
+        k_means.main()
