@@ -6,7 +6,7 @@ from scipy.cluster.hierarchy import dendrogram
 from matplotlib import pyplot as plt
 from scipy.cluster import hierarchy
 
-def plot_dendrogram(model, **kwargs):
+def plot_dendrogram(model,labels, **kwargs):
     # Create linkage matrix and then plot the dendrogram
 
     # create the counts of samples under each node
@@ -25,7 +25,8 @@ def plot_dendrogram(model, **kwargs):
                                       counts]).astype(float)
 
     # Plot the corresponding dendrogram
-    dendrogram(linkage_matrix, **kwargs)
+    dendrogram(linkage_matrix, **kwargs, labels=labels)
+
 
 class Mds():
 
@@ -46,8 +47,9 @@ class Mds():
 
         plt.title('Hierarchical Clustering Dendrogram')
         # plot the top three levels of the dendrogram
-        plot_dendrogram(model, truncate_mode='level', p=3)
+        plot_dendrogram(model, labels,truncate_mode='level', p=7)
         plt.xlabel("Number of points in node (or index of point if no parenthesis).")
+
         plt.show()
 
 
