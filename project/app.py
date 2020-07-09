@@ -1,7 +1,6 @@
 from project.code.dimensonality_reduction import pca, t_sne, isomap, MDS
-from project.code.clustering import hierarchical
-from project.code.clustering import k_means
-from project.code.in_development import chemistry
+from project.code.clustering import hierarchical, k_means
+from project.code.in_development import chemistry, database
 
 def run(p):
     print('--- APP RUNNING ---')
@@ -19,3 +18,6 @@ def run(p):
         k_means.main()
     elif p=='chemistry':
         chemistry.main()
+    elif p=='db':
+        database.main()
+
