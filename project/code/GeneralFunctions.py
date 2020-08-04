@@ -3,8 +3,6 @@ import matplotlib.pyplot as plt
 import random
 import math
 import numpy as np
-from mpl_toolkits import mplot3d
-
 
 
 # Function for importing a distance matrix from a cvs file into a python matrix
@@ -33,15 +31,15 @@ def readMatrix(filename):
 
 def create_dictionary(labels):
     """
-
+    creates a dictionary with key label and value a list of the index that correspond to the key label
     :param labels: labels of the samples
-    :return: dictonary with index of every label
+    :return: dictionary with index of every label
     """
     d = {}
 
     i = 0
-    for l in labels:
-        l1 = l.split('.')
+    for label in labels:
+        l1 = label.split('.')
         if l1[0]:
             if l1[0] not in d:
                 d[l1[0]] = [i]
@@ -54,34 +52,50 @@ def create_dictionary(labels):
     return d
 
 
-def plot(labels, X):
+def plot(labels, X, components=2):
+    """
+    plots the data :v
+    :param components: plots in 2D or 3D
+    :param labels: dictionary with index of every label
+    :param X: X after Dimensionality reduction
     """
 
-    :param label_dict: dictonary with index of every label
-    :param X: X after Dimentinality reduction
-    :param color_dict:
-    """
+    label_dict = create_dictionary(labels)
 
-    label_dict= create_dictionary(labels)
+    if components == 3:
+        fig = plt.figure()
+        ax = plt.axes(projection='3d')
 
-    for k in label_dict:
+    for key in label_dict:
         col = randomColor()
-        label = k
+        label = key
 
-        flag=0
+        flag = 0
         cont = 0
-        for j in label_dict[k]:
+        for j in label_dict[key]:
             if flag == 0:
-                plt.plot(X[j-1, 0], X[j-1, 1], 'o', c=col, label=label)
-                flag=1
+                if components == 2:
+                    plt.plot(X[j - 1, 0], X[j - 1, 1], 'o', c=col, label=label)
+                elif components == 3:
+                    ax.scatter3D(X[j - 1, 0], X[j - 1, 1], X[j - 1, 2], 'o', color=col, label=label)
+                flag = 1
             else:
 
-                plt.plot(X[j-1,0], X[j-1,1], 'o', c=col)
-                plt.annotate(str(cont),xy=(X[j-1,0], X[j-1,1]))
-       
-            cont+=1
+                if components == 2:
+                    plt.plot(X[j - 1, 0], X[j - 1, 1], 'o', c=col)
+                    plt.annotate(str(cont), xy=(X[j - 1, 0], X[j - 1, 1]))
+                elif components == 3:
+                    ax.scatter3D(X[j - 1, 0], X[j - 1, 1], X[j - 1, 2], 'o', color=col)
+                    x = X[j - 1, 0]
+
+                    y = X[j - 1, 1]
+                    z = X[j - 1, 2]
+                    ax.text(x, y, z, cont, 'x')
+
+            cont += 1
 
     plt.legend()
+    plt.show()
     return plt
 
 
@@ -105,6 +119,7 @@ def create_dictionary2(labels):
         i += 1
 
     return d
+
 
 def plot2(labels, X):
     """
@@ -137,80 +152,35 @@ def plot2(labels, X):
     return plt
 
 
-def plot3d(labels, X):
-
-    label_dict = create_dictionary(labels)
-    fig = plt.figure()
-    ax = plt.axes(projection='3d')
-
-    for k in label_dict:
-        col = randomColor()
-        label = k
-
-        flag = 0
-        cont = 0
-        for j in label_dict[k]:
-            if flag == 0:
-                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', color=col, label=label)
-                flag = 1
-            else:
-
-                ax.scatter3D(X[j-1,0], X[j-1,1], X[j-1,2], 'o', color=col)
-                x=X[j-1,0]
-
-                y=X[j-1,1]
-                z=X[j - 1, 2]
-                ax.text(x,y,z, cont,'x')
-
-
-            cont += 1
-
-    plt.legend()
-    plt.show()
-    return plt
-
 def randomColor():
     r = random.random()
-
     b = random.random()
-
     g = random.random()
-
     color = (r, g, b)
     return color
 
-def euclidean_distance(X):
+
+def euclidean_distance(X, components=2):
     ans = []
     for x in X:
         l = []
         for x2 in X:
-            l.append(float(math.sqrt((x[0] - x2[0]) ** 2 + (x[1] - x2[1]) ** 2)))
+            if components == 2:
+                l.append(float(math.sqrt((x[0] - x2[0]) ** 2 + (x[1] - x2[1]) ** 2)))
+            elif components == 3:
+                l.append(float(math.sqrt((x[0] - x2[0]) ** 2 + (x[1] - x2[1]) ** 2)) + (x[2] - x2[2]) ** 2)
         ans.append(l)
     return ans
 
-def euclidean_distance_3d(X):
-    ans = []
-    for x in X:
-        l = []
-        for x2 in X:
-            l.append(float(math.sqrt((x[0] - x2[0]) ** 2 + (x[1] - x2[1]) ** 2)) + (x[2] - x2[2]) ** 2)
-        ans.append(l)
-    return ans
 
 def normalizar(m):
     maximo = m.max()
     return np.divide(m, maximo)
 
-def error(m, x):
-    distancias = euclidean_distance(x)
-    distancias = np.array(distancias, dtype=np.float64)
-    m1 = normalizar(distancias)
-    m2 = normalizar(m)
-    return round(100*sum(sum(abs(np.subtract(m1, m2)))) / (91 * 91), 2)
 
-def error_3d(m, x):
-    distancias = euclidean_distance_3d(x)
+def error(m, x, components=2):
+    distancias = euclidean_distance(x, components)
     distancias = np.array(distancias, dtype=np.float64)
     m1 = normalizar(distancias)
     m2 = normalizar(m)
-    return round(100*sum(sum(abs(np.subtract(m1, m2)))) / (91 * 91), 2)
+    return round(100 * sum(sum(abs(np.subtract(m1, m2)))) / (91 * 91), 2)
