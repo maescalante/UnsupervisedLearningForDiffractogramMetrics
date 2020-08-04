@@ -1,6 +1,6 @@
 from sklearn.decomposition import PCA
 import numpy as np
-from project.code import GeneralFunctions as fun
+from project.code import general_functions as fun
 
 
 class Pca():

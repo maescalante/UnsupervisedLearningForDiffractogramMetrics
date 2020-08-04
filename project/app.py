@@ -1,4 +1,4 @@
-from project.code.dimensonality_reduction import pca, t_sne, isomap, MDS
+from project.code.dimensonality_reduction import pca, t_sne, isomap, mds
 from project.code.clustering import hierarchical, k_means
 from project.code.in_development import chemistry, database
 from project.code.diffractogram_metrics import distance_matrix_creator

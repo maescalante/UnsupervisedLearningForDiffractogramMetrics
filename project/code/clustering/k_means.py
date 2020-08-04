@@ -1,4 +1,4 @@
-from project.code import GeneralFunctions as fun
+from project.code import general_functions as fun
 from sklearn.cluster import KMeans
 import numpy as np
 from sklearn.manifold import MDS

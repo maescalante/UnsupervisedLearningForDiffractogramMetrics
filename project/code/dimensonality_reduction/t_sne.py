@@ -1,4 +1,4 @@
-from project.code import GeneralFunctions as fun
+from project.code import general_functions as fun
 from project.code.dimensonality_reduction.sne_raw import SNE_RAW
 from sklearn.manifold import TSNE
 import numpy as np
