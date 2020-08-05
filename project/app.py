@@ -19,3 +19,5 @@ def run(p):
         k_means.main()
     elif p=='chemistry':
         chemistry.main()
+    elif p=='mds_raw':
+        mds_raw.main()

@@ -41,7 +41,7 @@ class Mds():
 
 
         # setting distance_threshold=0 ensures we compute the full tree.
-        model = AgglomerativeClustering(n_clusters=None,distance_threshold=0)
+        model = AgglomerativeClustering(n_clusters=None,affinity="precomputed",linkage="average",distance_threshold=0)
 
         model = model.fit(X)
 

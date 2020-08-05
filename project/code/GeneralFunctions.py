@@ -179,6 +179,15 @@ def randomColor():
     color = (r, g, b)
     return color
 
+def diag_zeros(mat):
+        N = len(mat)
+        for i in range(0,N):
+            for j in range(0,N):
+                if i==j:
+                    mat[i][j]=0
+
+        return mat
+
 def euclidean_distance(X):
     ans = []
     for x in X:

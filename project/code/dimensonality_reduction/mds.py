@@ -12,11 +12,13 @@ class Mds():
 
     def run(self):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
+        mat = fun.diag_zeros(mat)
         mat = np.array(mat, dtype=np.float64)
+
 
         seed = np.random.RandomState(seed=3)
         seed3d = np.random.RandomState(seed=5)
-        embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed)
+        embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed, metric=True)
 
 
         X_transformed = embedding.fit_transform(mat)
