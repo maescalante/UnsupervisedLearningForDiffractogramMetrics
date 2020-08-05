@@ -132,3 +132,4 @@ dmypy.json
 *.png
 *.cif
 /project/resources/cod
+/project/results
