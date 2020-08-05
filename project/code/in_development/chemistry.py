@@ -1,5 +1,5 @@
 import chempy
-from project.code import GeneralFunctions as fun
+from project.code import general_functions as fun
 from sklearn.manifold import Isomap
 import numpy as np
 import mendeleev
