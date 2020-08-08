@@ -3,7 +3,7 @@ from sklearn.manifold import MDS
 import numpy as np
 import scipy.linalg as la
 from numpy.linalg import matrix_power
-import scipy.optimize._minimize as minTI
+import scipy.optimize._minimize as opti
 import math
 
 class mds_raw():
@@ -14,6 +14,8 @@ class mds_raw():
         self.currentFile = 'DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
     def triangle_inequality(self, mat):
         tc = True
+        cont=0
+        total=0
         # triangle constant, 0 if metric
         for i in range(0, len(mat)):
             for j in range(0, len(mat)):
@@ -22,7 +24,15 @@ class mds_raw():
                     if mat[i][j]+mat[j][k]<mat[i][k]:
 
                         tc=False
-        print("Triangle inequality " + str(tc))
+                        cont=cont+1
+                    total+=1
+        if cont==0:
+            print("Triangle inequality " + str(tc) + " porcentaje que no cumplen=" + str("0%"))
+        else:
+            total_t= len(mat)*(len(mat)-1)*(len(mat)-2)/2
+            print("Triangle inequality " + str(tc)+ " porcentaje que no cumplen="+str(round(cont/total_t*100,5))+"%")
+
+
     #input is a matrix that does not satisfy the traingle inequality
     def to_distance_matrix(self, dissimilarity_mat):
         N= len(dissimilarity_mat)
@@ -38,14 +48,15 @@ class mds_raw():
                     for k in range (0,N):
                         b=dissimilarity_mat[k][i]+dissimilarity_mat[j][k]-dissimilarity_mat[i][j]
 
-                        u=1/3 * (e[i][j]-e[j][k]-e[k][i]-b)
+                        u=-1/3 * (b-e[i][j]+e[j][k]+e[k][i])
 
-                        theta=min(-1*u,z[i][j][k])
+                        theta=min(u,z[i][j][k])
 
-                        e[i][j]=e[i][j]-theta
-                        e[j][k]=e[j][k]+theta
-                        e[k][i]=e[k][i]+theta
-                        z[i][j][k]=z[i][j][k]-theta
+                        e[i][j]=e[i][j]+theta
+                        e[j][k]=e[j][k]-theta
+                        e[k][i]=e[k][i]-theta
+
+                        z[i][j][k]=z[i][j][k]+theta
             dif=np.subtract(e,e_act)
             delta=np.sum(dif)
 
@@ -55,10 +66,18 @@ class mds_raw():
         N= len(dissimilarity_mat)
         iters=100
         i=0
+        e=10^-3
         w = [[1 for j in range(N)] for k in range(N)]
         while i<iters:
-
+            p_new=opti(self.to_minimize(w,self.perturbation(dissimilarity_mat)))
+            w=1/(p_new+e)
             i=i+1
+    def to_minimize(self,w, p):
+        N = len(p)
+        sum=0
+        for i in range (0,N):
+            for j in range(0,N):
+                sum=sum+w[i][j]*np.abs(p)
     def perturbation(self,D):
         ori=D
         N = len(D)
@@ -135,8 +154,9 @@ class mds_raw():
         #print('Error: ', str(fun.error(mat, X_transformed)) + '%')
         corrected=fun.diag_zeros(mat)
         self.triangle_inequality(corrected)
-        ti=self.to_distance_matrix(corrected)
-        self.triangle_inequality(ti)
+        ti=self.to_distance_matrix(prueba)
+
+        #self.triangle_inequality(ti)
         print(ti)
         seed = np.random.RandomState(seed=3)
         seed3d = np.random.RandomState(seed=5)
