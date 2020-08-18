@@ -18,7 +18,9 @@ class Mds():
 
         seed = np.random.RandomState(seed=3)
         seed3d = np.random.RandomState(seed=5)
-        embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed, metric=True)
+        embedding = MDS(n_components=2, metric=False, max_iter=3000, eps=1e-12,
+                    dissimilarity="precomputed", random_state=seed, n_jobs=1,
+                    n_init=1)
 
         X_transformed = embedding.fit_transform(mat)
 
@@ -31,7 +33,7 @@ class Mds():
 
         print('Error: ', str(fun.error(mat, X_transformed)) + '%')
 
-        embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d)
+        embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d, metric=False)
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'mds3D.png')

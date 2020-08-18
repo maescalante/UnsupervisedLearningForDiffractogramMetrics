@@ -12,8 +12,11 @@ class mds_raw():
         self.path_to_file = 'project/resources/'
         self.path_to_results = 'project/results/'
         self.currentFile = 'DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
-    def triangle_inequality(self, mat):
+
+
+    def triangle_inequality(self, mat, labels):
         tc = True
+        lab=[]
         cont=0
         total=0
         # triangle constant, 0 if metric
@@ -25,12 +28,32 @@ class mds_raw():
 
                         tc=False
                         cont=cont+1
+                        if labels[i] not in lab:
+
+                            lab.append(labels[i])
                     total+=1
         if cont==0:
             print("Triangle inequality " + str(tc) + " porcentaje que no cumplen=" + str("0%"))
         else:
             total_t= len(mat)*(len(mat)-1)*(len(mat)-2)/2
             print("Triangle inequality " + str(tc)+ " porcentaje que no cumplen="+str(round(cont/total_t*100,5))+"%")
+
+
+
+
+    def const_c(self, mat):
+
+        maxi = 0
+        # triangle constant, 0 if metric
+        for i in range(0, len(mat)):
+            for j in range(0, len(mat)):
+                for k in range(0, len(mat)):
+                    val=abs(mat[i][j] + mat[i][k] + mat[j][k])
+                    if val>maxi:
+                        maxi=val
+        return maxi
+
+
 
 
     #input is a matrix that does not satisfy the traingle inequality
@@ -62,31 +85,16 @@ class mds_raw():
 
         return dissimilarity_mat+e
 
-    def to_distance_matrix2(self, dissimilarity_mat):
-        N= len(dissimilarity_mat)
-        iters=100
-        i=0
-        e=10^-3
-        w = [[1 for j in range(N)] for k in range(N)]
-        while i<iters:
-            p_new=opti(self.to_minimize(w,self.perturbation(dissimilarity_mat)))
-            w=1/(p_new+e)
-            i=i+1
-    def to_minimize(self,w, p):
-        N = len(p)
-        sum=0
-        for i in range (0,N):
+    def to_distance_matrix2(self, dissimilarity_mat, c):
+        N=len(dissimilarity_mat)
+        for i in range(0,N):
             for j in range(0,N):
-                sum=sum+w[i][j]*np.abs(p)
-    def perturbation(self,D):
-        ori=D
-        N = len(D)
-        for i in range(0, N):
-            for j in range(0, N):
-                for k in range(0, N):
-                    if D[i][j]>=D[i][k]+D[k][j]:
-                        D[i][j] = D[i][k] + D[k][j]
-        return np.subtract(ori,D)
+                if i==j:
+                    dissimilarity_mat[i][j]=0
+                else:
+                    dissimilarity_mat[i][j]=dissimilarity_mat[i][j]+c
+        return dissimilarity_mat
+
     def nef(self,lam):
         # negative eige fraction -- the dregree to which the distance matrix departs from being euclidean
         # if nef is 0 metrics are euclidean
@@ -103,63 +111,16 @@ class mds_raw():
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
 
-        self.triangle_inequality(mat)
+        self.triangle_inequality(mat,labels)
 
-        prueba=[[0,16,47,72,77,79],
-                [16,0,37,57,65,66],
-                [47,37,0,40,30,35],
-                [72,57,40,0,31,23],
-                [77,65,30,31,0,10],
-                [79,66,35,23,10,0]]
-        prueba2=[[0,4],
-                 [4,0]]
-        self.triangle_inequality(prueba2)
-        self.triangle_inequality(prueba)
-        #lamp=la.eig(prueba)
-        #self.nef(lamp[0])
-        #mat=np.square(mat)
+        c=self.const_c(mat)
+        ti=self.to_distance_matrix2(mat,c)
 
-        #n=len(mat)
-        #m=2
-        #Z= np.identity(n)- (1/n)*np.ones(n)
+        self.triangle_inequality(ti,labels)
 
-        #B=-1/2*np.dot(np.dot(Z,mat),Z)
-
-        #results = la.eig(B)
-        #Q=results[1]
-
-        #Q=Q[:,0:m]
-
-
-        #lam=results[0]
-        #self.nef(lam)
-
-
-
-        #lam=lam[0:m]*np.identity(m)
-
-        #hay eingenvalues negativos porque no se usan distancias euclidianas
-        #print(lam)
-        #X_transformed=np.dot(Q,matrix_power(lam,-1))
-
-        #X_transformed=np.int_(X_transformed.real)
-
-        #print((X_transformed))
-
-
-        #plt = fun.plot(labels, X_transformed)
-        #plt.savefig(self.path_to_results + 'mds_raw.png')
-
-
-        #print('Error: ', str(fun.error(mat, X_transformed)) + '%')
-        corrected=fun.diag_zeros(mat)
-        self.triangle_inequality(corrected)
-        ti=self.to_distance_matrix(prueba)
-
-        #self.triangle_inequality(ti)
-        print(ti)
-        seed = np.random.RandomState(seed=3)
-        seed3d = np.random.RandomState(seed=5)
+        #print(ti)
+        seed = np.random.RandomState(seed=5)
+        seed3d = np.random.RandomState(seed=4)
         embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed, metric=True)
 
         X_transformed = embedding.fit_transform(ti)
@@ -168,6 +129,11 @@ class mds_raw():
 
         print('Error: ', str(fun.error(ti, X_transformed)) + '%')
 
+        embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d, metric=False)
+        X_transformed3d = embedding3d.fit_transform(mat)
+        plt3d = fun.plot(labels, X_transformed3d, components=3)
+        plt3d.savefig(self.path_to_results + 'mds_raw3D.png')
+        print('Error: ', str(fun.error(mat, X_transformed3d, components=3)) + '%')
 
 
 def main():
