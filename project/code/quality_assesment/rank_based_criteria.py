@@ -12,7 +12,7 @@ def ranks(d):
             p[i][j]=cont
             cont=0
     return p
-
+"""""
 def coranking_mat(d, dp):
     p=ranks(d)
     r=ranks(dp)
@@ -22,3 +22,4 @@ def coranking_mat(d, dp):
     for  in range(0,N):
         for j in range (0,N):
           if p[i]
+          """
