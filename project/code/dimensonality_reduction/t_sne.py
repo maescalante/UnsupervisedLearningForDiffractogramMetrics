@@ -6,13 +6,17 @@ import numpy as np
 import project.code.quality_assesment.reconstruction_error as er
 class Sne():
 
-    def __init__(self):
+    def __init__(self, labels = None):
         self.path_to_file = 'project/resources/'
         self.path_to_results = 'project/results/'
         self.currentFile = 'DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
+        self.custom_labels = False
+        self.labels = labels
 
     def run(self):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
+        if self.custom_labels:
+            labels = self.labels
         mat = np.array(mat, dtype=np.float64)
         seed = np.random.RandomState(seed=2)
         X_embedded = TSNE(n_components=2, random_state=seed, metric='precomputed').fit_transform(mat)
@@ -29,8 +33,3 @@ class Sne():
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 't-sne3D.png')
         print('Error3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
-
-
-def main():
-    sne = Sne()
-    sne.run()

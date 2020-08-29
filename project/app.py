@@ -1,5 +1,5 @@
-from project.code.dimensonality_reduction import pca, t_sne, isomap, mds,mds_raw
-from project.code.clustering import hierarchical, k_means
+from project.code.dimensonality_reduction import pca, t_sne, isomap, mds, mds_raw
+from project.code.clustering import hierarchical, k_means, k_medoids, results_visualization
 from project.code.in_development import chemistry, database
 from project.code.diffractogram_metrics import distance_matrix_creator
 
@@ -24,5 +24,9 @@ def run(p):
         database.main()
     elif p == 'distance':
         distance_matrix_creator.main()
-    elif p=='mds_raw':
+    elif p == 'mds_raw':
         mds_raw.main()
+    elif p == 'k-medoids':
+        k_medoids.main()
+    elif p == 'results':
+        results_visualization.main()
