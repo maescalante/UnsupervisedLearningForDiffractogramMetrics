@@ -2,7 +2,7 @@ from project.code import general_functions as fun
 from sklearn.cluster import KMeans
 import numpy as np
 from sklearn.manifold import MDS
-
+import project.code.quality_assesment.reconstruction_error as er
 class Kmeans:
 
     def __init__(self):
@@ -31,7 +31,7 @@ class Kmeans:
 
         plt = fun.plot2(kmeans.labels_, X_transformed)
         plt.savefig(self.path_to_results + 'mds_kmeans.png')
-        print('Error: ', str(fun.error(mat, X_transformed)) + '%')
+        print('Error: ', str(er.error(mat, X_transformed)) + '%')
 
 
 def main():

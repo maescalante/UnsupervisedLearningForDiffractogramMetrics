@@ -3,7 +3,7 @@ from project.code.dimensonality_reduction.sne_raw import SNE_RAW
 from sklearn.manifold import TSNE
 import numpy as np
 
-
+import project.code.quality_assesment.reconstruction_error as er
 class Sne():
 
     def __init__(self):
@@ -21,14 +21,14 @@ class Sne():
 
         plt.savefig(self.path_to_results + 't-sne.png')
 
-        print('Error: ', str(fun.error(mat, X_embedded)) + '%')
+        print('Error: ', str(er.error(mat, X_embedded)) + '%')
 
         seed3d = np.random.RandomState(seed=5)
         embedding3d = TSNE(n_components=3, random_state=seed3d, metric='precomputed')
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 't-sne3D.png')
-        print('Error3D: ', str(fun.error(mat, X_transformed3d, components=3)) + '%')
+        print('Error3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
 
 
 def main():

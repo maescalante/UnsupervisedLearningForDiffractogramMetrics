@@ -1,6 +1,7 @@
 from project.code import general_functions as fun
 from sklearn.manifold import Isomap
 import numpy as np
+import project.code.quality_assesment.reconstruction_error as er
 
 
 class ISOMAP():
@@ -22,13 +23,13 @@ class ISOMAP():
         plt = fun.plot(labels, X_transformed)
 
         plt.savefig(self.path_to_results + 'isomap.png')
-        print('Error: ', str(fun.error(mat, X_transformed)) + '%')
+        print('Error: ', str(er.error(mat, X_transformed)) + '%')
 
         embedding3d = Isomap(n_components=3)
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'isomap3D.png')
-        print('Error: ', str(fun.error(mat, X_transformed3d, components=3)) + '%')
+        print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
 
 
 def main():

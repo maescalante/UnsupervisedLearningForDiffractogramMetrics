@@ -5,7 +5,7 @@ import scipy.linalg as la
 from numpy.linalg import matrix_power
 import scipy.optimize._minimize as opti
 import math
-
+import project.code.quality_assesment.reconstruction_error as er
 class mds_raw():
 
     def __init__(self):
@@ -48,7 +48,7 @@ class mds_raw():
         for i in range(0, len(mat)):
             for j in range(0, len(mat)):
                 for k in range(0, len(mat)):
-                    val=abs(mat[i][j] + mat[i][k] + mat[j][k])
+                    val=abs(mat[i][j] - mat[i][k] + mat[j][k])
                     if val>maxi:
                         maxi=val
         return maxi
@@ -69,7 +69,7 @@ class mds_raw():
             for i in range (0,N):
                 for j in range (0,N):
                     for k in range (0,N):
-                        b=dissimilarity_mat[k][i]+dissimilarity_mat[j][k]-dissimilarity_mat[i][j]
+                        b=dissimilarity_mat[k][i]+dissimilarity_mat[j][k]+dissimilarity_mat[i][j]
 
                         u=-1/3 * (b-e[i][j]+e[j][k]+e[k][i])
 
@@ -127,13 +127,13 @@ class mds_raw():
         plt = fun.plot(labels, X_transformed)
         plt.savefig(self.path_to_results + 'mdsMetric.png')
 
-        print('Error: ', str(fun.error(ti, X_transformed)) + '%')
+        print('Error: ', str(er.error(ti, X_transformed)) + '%')
 
         embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d, metric=False)
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'mds_raw3D.png')
-        print('Error: ', str(fun.error(mat, X_transformed3d, components=3)) + '%')
+        print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
 
 
 def main():
