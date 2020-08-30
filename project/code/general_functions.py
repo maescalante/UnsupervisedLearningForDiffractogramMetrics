@@ -168,4 +168,49 @@ def diag_zeros(mat):
 
     return mat
 
+def triangle_inequality(mat):
+        tc = True
+        lab = []
+        cont = 0
+        total = 0
+        # triangle constant, 0 if metric
+        for i in range(0, len(mat)):
+            for j in range(0, len(mat)):
+                for k in range(0, len(mat)):
 
+                    if mat[i][j] + mat[j][k] < mat[i][k]:
+                        tc = False
+                        cont = cont + 1
+
+                    total += 1
+        if cont == 0:
+            print("Triangle inequality " + str(tc) + " porcentaje que no cumplen=" + str("0%"))
+        else:
+            total_t = len(mat) * (len(mat) - 1) * (len(mat) - 2) / 2
+            print("Triangle inequality " + str(tc) + " porcentaje que no cumplen=" + str(
+                round(cont / total_t * 100, 5)) + "%")
+
+
+
+def const_c( mat):
+
+        maxi = 0
+        # triangle constant, 0 if metric
+        for i in range(0, len(mat)):
+            for j in range(0, len(mat)):
+                for k in range(0, len(mat)):
+                    val=abs(mat[i][j] - mat[i][k] + mat[j][k])
+                    if val>maxi:
+                        maxi=val
+        return maxi
+
+def to_distance_matrix(dissimilarity_mat):
+        c=const_c(dissimilarity_mat)
+        N=len(dissimilarity_mat)
+        for i in range(0,N):
+            for j in range(0,N):
+                if i==j:
+                    dissimilarity_mat[i][j]=0
+                else:
+                    dissimilarity_mat[i][j]=dissimilarity_mat[i][j]+c
+        return dissimilarity_mat
