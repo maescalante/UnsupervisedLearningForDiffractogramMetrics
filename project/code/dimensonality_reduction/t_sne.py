@@ -2,7 +2,10 @@ from project.code import general_functions as fun
 from project.code.dimensonality_reduction.sne_raw import SNE_RAW
 from sklearn.manifold import TSNE
 import numpy as np
-
+from coranking.metrics import trustworthiness
+import project.code.quality_assesment.reconstruction_error as er
+import project.code.quality_assesment.rank_based_criteria as rbc
+import coranking
 import project.code.quality_assesment.reconstruction_error as er
 class Sne():
 
@@ -27,9 +30,14 @@ class Sne():
 
         print('Error: ', str(er.error(mat, X_embedded)) + '%')
 
+
         seed3d = np.random.RandomState(seed=5)
         embedding3d = TSNE(n_components=3, random_state=seed3d, metric='precomputed')
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 't-sne3D.png')
         print('Error3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
+        return X_embedded
+def main():
+    sne = Sne()
+    sne.run()

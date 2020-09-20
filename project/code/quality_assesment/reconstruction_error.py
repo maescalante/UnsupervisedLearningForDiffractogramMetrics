@@ -1,5 +1,6 @@
 import numpy as np
 import math
+
 def euclidean_distance(X, components=2):
     ans = []
     for x in X:
