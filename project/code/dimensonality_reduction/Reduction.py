@@ -36,7 +36,7 @@ class Reduction:
         if self.plot:
             plt = fun.plot(labels, X)
 
-        plt.savefig(self.path_to_results + 't-sne.png')
+        # plt.savefig(self.path_to_results + 't-sne.png')
         print('Error: ', str(er.error(mat, X)) + '%')
 
         return X

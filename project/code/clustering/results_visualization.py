@@ -24,7 +24,7 @@ class results:
         # Visualización 3 mds raw y luego k medoids
 
         [medoids, map, cost] = k_medoids.Kmedoids().run()
-        Reduction(method='sne', seed=2, labels=medoids, plot=False).run()
+        Reduction(method='sne', seed=2, labels=medoids).run()
 
         # Visualización 5 t-sne y luego k medoids
 
