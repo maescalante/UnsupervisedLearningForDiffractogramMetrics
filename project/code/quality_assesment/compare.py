@@ -6,6 +6,7 @@ import coranking
 import matplotlib.pyplot as plt
 
 from coranking.metrics import trustworthiness
+from coranking.metrics import continuity
 import project.code.quality_assesment.reconstruction_error as er
 import project.code.quality_assesment.rank_based_criteria as rbc
 from project.code.dimensonality_reduction import mds_corrected
@@ -21,29 +22,53 @@ class compare():
 
 
     def run(self):
-
+        fig,ax=plt.subplots(1,3)
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
         ti = fun.to_distance_matrix(mat)
 
-        mds=mds_corrected.main()
-        tsne= t_sne.main()
-        iso=isomap.main()
+        mds=mds_corrected.main(0)
+        tsne= t_sne.main(0)
+        iso=isomap.main(0)
 
         Qmds = coranking.coranking_matrix(ti, mds)
         Qtsne = coranking.coranking_matrix(mat, tsne)
         Qiso = coranking.coranking_matrix(mat, iso)
 
-
         lcm_mds = coranking.metrics.LCMC(Qmds, 1, 50)
         lcm_tsne = coranking.metrics.LCMC(Qtsne, 1, 50)
         lcm_iso = coranking.metrics.LCMC(Qiso, 1, 50)
-        plt.plot(lcm_mds)
-        plt.plot(lcm_tsne)
-        plt.plot(lcm_iso)
-        plt.legend(["MDS", "TSNE", "ISOMAP"])
-        plt.show()
+        ax[0].set_title("LCMC")
+        ax[0].set(xlabel='K', ylabel='LCMC')
+        ax[0].plot(lcm_mds)
+        ax[0].plot(lcm_tsne)
+        ax[0].plot(lcm_iso)
+        ax[0].legend(["MDS", "TSNE", "ISOMAP"])
+        #plt.show()
 
+
+
+        t_mds = trustworthiness(Qmds,1,50)
+        t_tsne = trustworthiness(Qtsne, 1, 50)
+        t_iso = trustworthiness(Qiso, 1, 50)
+        ax[1].set_title("Trustworthiness")
+        ax[1].set(xlabel='K', ylabel='Trustworthiness')
+        ax[1].plot(t_mds)
+        ax[1].plot(t_tsne)
+        ax[1].plot(t_iso)
+        ax[1].legend(["MDS", "TSNE", "ISOMAP"])
+
+        c_mds = continuity(Qmds, 1, 50)
+        c_tsne = continuity(Qtsne, 1, 50)
+        c_iso = continuity(Qiso, 1, 50)
+        ax[2].set_title("Continuity")
+        ax[2].set(xlabel='K', ylabel='Continuity')
+        ax[2].plot(c_mds)
+        ax[2].plot(c_tsne)
+        ax[2].plot(c_iso)
+        ax[2].legend(["MDS", "TSNE", "ISOMAP"])
+
+        plt.show()
 
 
 

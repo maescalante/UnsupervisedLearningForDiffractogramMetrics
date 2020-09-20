@@ -16,7 +16,7 @@ class Sne():
         self.custom_labels = False
         self.labels = labels
 
-    def run(self):
+    def run(self, plot_flag=1):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         if self.custom_labels:
             labels = self.labels
@@ -24,9 +24,10 @@ class Sne():
         seed = np.random.RandomState(seed=2)
         X_embedded = TSNE(n_components=2, random_state=seed, metric='precomputed').fit_transform(mat)
         # X_embedded = SNE_RAW().fit(mat)
-        plt = fun.plot(labels, X_embedded)
+        if plot_flag==1:
+            plt = fun.plot(labels, X_embedded)
 
-        plt.savefig(self.path_to_results + 't-sne.png')
+            plt.savefig(self.path_to_results + 't-sne.png')
 
         print('Error TSNE 2D: ', str(er.error(mat, X_embedded)) + '%')
 
@@ -34,11 +35,12 @@ class Sne():
         seed3d = np.random.RandomState(seed=5)
         embedding3d = TSNE(n_components=3, random_state=seed3d, metric='precomputed')
         X_transformed3d = embedding3d.fit_transform(mat)
-        plt3d = fun.plot(labels, X_transformed3d, components=3)
-        plt3d.savefig(self.path_to_results + 't-sne3D.png')
+        if plot_flag==1:
+            plt3d = fun.plot(labels, X_transformed3d, components=3)
+            plt3d.savefig(self.path_to_results + 't-sne3D.png')
         print('Error TSNE 3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
         return X_embedded
-def main():
+def main(plot_flag=1):
     sne = Sne()
-    a=sne.run()
-    return a
+    resp=sne.run(plot_flag)
+    return resp

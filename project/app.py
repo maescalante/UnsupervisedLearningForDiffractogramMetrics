@@ -6,32 +6,42 @@ from project.code.in_development import triangle_inequality
 from project.code.quality_assesment import compare
 
 def run(p):
+
     print('--- APP RUNNING ---')
-    if p == 'sne':
-        t_sne.main()
-    elif p == 'mds':
+    if p[1] == 'sne':
+        if len(p)>2:
+            t_sne.main(p[2])
+        else:
+            t_sne.main()
+    elif p[1] == 'mds':
         mds.main()
-    elif p == 'pca':
+    elif p[1] == 'pca':
         pca.main()
-    elif p == 'isomap':
-        isomap.main()
-    elif p == 'hierarchical':
+    elif p[1] == 'isomap':
+        if len(p)>2:
+            isomap.main(p[2])
+        else:
+            isomap.main()
+    elif p[1] == 'hierarchical':
         hierarchical.main()
-    elif p == 'k-means':
+    elif p[1] == 'k-means':
         k_means.main()
-    elif p == 'chemistry':
+    elif p[1] == 'chemistry':
         chemistry.main()
-    elif p == 'db':
+    elif p[1] == 'db':
         database.main()
-    elif p == 'distance':
+    elif p[1] == 'distance':
         distance_matrix_creator.main()
-    elif p == 'mds_corrected':
-        mds_corrected.main()
-    elif p == 'k-medoids':
+    elif p[1] == 'mds_corrected':
+        if len(p)>2:
+            mds_corrected.main(p[2])
+        else:
+            mds_corrected.main()
+    elif p[1] == 'k-medoids':
         k_medoids.main()
-    elif p == 'results':
+    elif p[1] == 'results':
         results_visualization.main()
-    elif p=='triangle_inequality':
+    elif p[1]=='triangle_inequality':
         triangle_inequality.main()
-    elif p=='compare':
+    elif p[1]=='compare':
         compare.main()

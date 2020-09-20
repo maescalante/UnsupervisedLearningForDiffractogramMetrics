@@ -28,7 +28,7 @@ class mds_raw():
         NEF = neg / sum
         print("NEF " + str(NEF))
 
-    def run(self):
+    def run(self, plot_flag=1):
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
 
@@ -44,21 +44,22 @@ class mds_raw():
         embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed, metric=True)
 
         X_transformed = embedding.fit_transform(ti)
-        plt = fun.plot(labels, X_transformed)
-        plt.savefig(self.path_to_results + 'mdsMetric.png')
+        if plot_flag==1:
+            plt = fun.plot(labels, X_transformed)
+            plt.savefig(self.path_to_results + 'mdsMetric.png')
 
 
         print('Error MDS Corrected 2D: ', str(er.error(ti, X_transformed)) + '%')
 
         embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d, metric=False)
         X_transformed3d = embedding3d.fit_transform(mat)
-
-        plt3d = fun.plot(labels, X_transformed3d, components=3)
-        plt3d.savefig(self.path_to_results + 'mds_raw3D.png')
+        if plot_flag == "1":
+            plt3d = fun.plot(labels, X_transformed3d, components=3)
+            plt3d.savefig(self.path_to_results + 'mds_raw3D.png')
         print('Error MDS Corrected 3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
         return X_transformed
 
-def main():
+def main(plot_flag=1):
     mds = mds_raw()
-    a=mds.run()
-    return a
+    resp=mds.run(plot_flag)
+    return resp
