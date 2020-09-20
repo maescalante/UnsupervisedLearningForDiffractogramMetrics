@@ -23,17 +23,17 @@ class results:
 
         # Visualización 3 mds raw y luego k medoids
 
-        [medoids, map, cost] = k_medoids.Kmedoids().run()
+        [medoids, map, cost] = k_medoids.Kmedoids().run(mat)
         Reduction(method='sne', seed=2, labels=medoids).run()
 
         # Visualización 5 t-sne y luego k medoids
 
-        [medoids, map, cost] = k_medoids.Kmedoids().run()
+        [medoids, map, cost] = k_medoids.Kmedoids().run(mat)
         Reduction(method='mds', seed=3, labels=medoids).run()
 
         # Visualización 6 hierarchical
 
-        hierarchical.main()
+        hierarchical.Hierarchical().run()
 
 
 def main():

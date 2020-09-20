@@ -1,12 +1,11 @@
 from project.code import general_functions as fun
-from sklearn.manifold import MDS
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram
 from matplotlib import pyplot as plt
-from scipy.cluster import hierarchy
 
-def plot_dendrogram(model,labels, **kwargs):
+
+def plot_dendrogram(model, labels, **kwargs):
     # Create linkage matrix and then plot the dendrogram
 
     # create the counts of samples under each node
@@ -28,7 +27,7 @@ def plot_dendrogram(model,labels, **kwargs):
     dendrogram(linkage_matrix, **kwargs, labels=labels)
 
 
-class Mds():
+class Hierarchical:
 
     def __init__(self):
         self.path_to_file = 'project/resources/'
@@ -39,22 +38,15 @@ class Mds():
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         X = np.array(mat, dtype=np.float64)
 
-
         # setting distance_threshold=0 ensures we compute the full tree.
-        model = AgglomerativeClustering(n_clusters=None,affinity="precomputed",linkage="average",distance_threshold=0)
+        model = AgglomerativeClustering(n_clusters=None, affinity="precomputed", linkage="average",
+                                        distance_threshold=0)
 
         model = model.fit(X)
 
         plt.title('Hierarchical Clustering Dendrogram')
         # plot the top three levels of the dendrogram
-        plot_dendrogram(model, labels,truncate_mode='level', p=7)
+        plot_dendrogram(model, labels, truncate_mode='level', p=7)
         plt.xlabel("Number of points in node (or index of point if no parenthesis).")
 
         plt.show()
-
-
-
-def main():
-    mds = Mds()
-    mds.run()
-
