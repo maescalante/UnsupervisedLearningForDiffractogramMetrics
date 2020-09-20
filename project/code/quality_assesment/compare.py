@@ -8,7 +8,11 @@ from nose import tools as nose
 from coranking.metrics import trustworthiness
 import project.code.quality_assesment.reconstruction_error as er
 import project.code.quality_assesment.rank_based_criteria as rbc
-class mds_raw():
+from project.code.dimensonality_reduction import mds_corrected
+from project.code.dimensonality_reduction import t_sne
+from project.code.dimensonality_reduction import isomap
+
+class compare():
 
     def __init__(self):
         self.path_to_file = 'project/resources/'
@@ -29,39 +33,25 @@ class mds_raw():
         print("NEF " + str(NEF))
 
     def run(self):
+
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
+        ti = fun.to_distance_matrix(mat)
 
-        fun.triangle_inequality(mat)
+        mds=mds_corrected.main()
+        tsne= t_sne.main()
+        
+        Q = coranking.coranking_matrix(ti, X_transformed)
 
-        ti=fun.to_distance_matrix(mat)
+        print(Q)
 
-        fun.triangle_inequality(ti)
-
-        #print(ti)
-        seed = np.random.RandomState(seed=5)
-        seed3d = np.random.RandomState(seed=4)
-        embedding = MDS(n_components=2, dissimilarity='precomputed', random_state=seed, metric=True)
-
-        X_transformed = embedding.fit_transform(ti)
-        plt = fun.plot(labels, X_transformed)
-        plt.savefig(self.path_to_results + 'mdsMetric.png')
-
-
-        print('Error: ', str(er.error(ti, X_transformed)) + '%')
+        lcm = coranking.metrics.LCMC(Q, 1, 50)
+        plt.plot(lcm)
 
 
 
 
-
-        embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d, metric=False)
-        X_transformed3d = embedding3d.fit_transform(mat)
-
-        plt3d = fun.plot(labels, X_transformed3d, components=3)
-        plt3d.savefig(self.path_to_results + 'mds_raw3D.png')
-        print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
-        return X_transformed
 
 def main():
-    mds = mds_raw()
-    mds.run()
+    comp = compare()
+    comp.run()

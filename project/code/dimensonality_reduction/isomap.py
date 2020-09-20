@@ -30,7 +30,7 @@ class ISOMAP():
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'isomap3D.png')
         print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
-
+        return X_transformed
 
 def main():
     iso = ISOMAP()
