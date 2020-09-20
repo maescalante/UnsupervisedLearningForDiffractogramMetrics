@@ -16,22 +16,23 @@ class ISOMAP():
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
 
-        embedding = Isomap(n_neighbors=16, n_components=2, metric='precomputed')
+        embedding = Isomap(n_neighbors=91, n_components=14, metric='precomputed')
 
         X_transformed = embedding.fit_transform(mat)
 
         plt = fun.plot(labels, X_transformed)
 
         plt.savefig(self.path_to_results + 'isomap.png')
-        print('Error: ', str(er.error(mat, X_transformed)) + '%')
+        print('Error ISOMAP 2D: ', str(er.error(mat, X_transformed)) + '%')
 
         embedding3d = Isomap(n_components=3)
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'isomap3D.png')
-        print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
+        print('Error ISOMAP 3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
         return X_transformed
 
 def main():
     iso = ISOMAP()
-    iso.run()
+    a=iso.run()
+    return a

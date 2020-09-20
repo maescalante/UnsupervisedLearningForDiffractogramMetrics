@@ -48,20 +48,17 @@ class mds_raw():
         plt.savefig(self.path_to_results + 'mdsMetric.png')
 
 
-        print('Error: ', str(er.error(ti, X_transformed)) + '%')
-
-
-
-
+        print('Error MDS Corrected 2D: ', str(er.error(ti, X_transformed)) + '%')
 
         embedding3d = MDS(n_components=3, dissimilarity='precomputed', random_state=seed3d, metric=False)
         X_transformed3d = embedding3d.fit_transform(mat)
 
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'mds_raw3D.png')
-        print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
+        print('Error MDS Corrected 3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
         return X_transformed
 
 def main():
     mds = mds_raw()
-    mds.run()
+    a=mds.run()
+    return a

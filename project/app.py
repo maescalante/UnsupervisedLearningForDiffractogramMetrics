@@ -3,6 +3,7 @@ from project.code.clustering import hierarchical, k_means, k_medoids, results_vi
 from project.code.in_development import chemistry, database
 from project.code.diffractogram_metrics import distance_matrix_creator
 from project.code.in_development import triangle_inequality
+from project.code.quality_assesment import compare
 
 def run(p):
     print('--- APP RUNNING ---')
@@ -32,3 +33,5 @@ def run(p):
         results_visualization.main()
     elif p=='triangle_inequality':
         triangle_inequality.main()
+    elif p=='compare':
+        compare.main()

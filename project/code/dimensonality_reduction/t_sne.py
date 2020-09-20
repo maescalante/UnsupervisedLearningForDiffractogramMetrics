@@ -28,7 +28,7 @@ class Sne():
 
         plt.savefig(self.path_to_results + 't-sne.png')
 
-        print('Error: ', str(er.error(mat, X_embedded)) + '%')
+        print('Error TSNE 2D: ', str(er.error(mat, X_embedded)) + '%')
 
 
         seed3d = np.random.RandomState(seed=5)
@@ -36,8 +36,9 @@ class Sne():
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 't-sne3D.png')
-        print('Error3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
+        print('Error TSNE 3D: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
         return X_embedded
 def main():
     sne = Sne()
-    sne.run()
+    a=sne.run()
+    return a

@@ -24,9 +24,7 @@ class Mds():
 
         X_transformed = embedding.fit_transform(mat)
 
-        print(len(X_transformed))
 
-        print(len(X_transformed[0]))
 
         plt = fun.plot(labels, X_transformed)
         plt.savefig(self.path_to_results + 'mds.png')

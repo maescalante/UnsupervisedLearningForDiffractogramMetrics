@@ -3,8 +3,8 @@ from sklearn.manifold import MDS
 import numpy as np
 from scipy.spatial import distance
 import coranking
-import matplotlib as plt
-from nose import tools as nose
+import matplotlib.pyplot as plt
+
 from coranking.metrics import trustworthiness
 import project.code.quality_assesment.reconstruction_error as er
 import project.code.quality_assesment.rank_based_criteria as rbc
@@ -20,18 +20,6 @@ class compare():
         self.currentFile = 'DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
 
 
-    def nef(self,lam):
-        # negative eige fraction -- the dregree to which the distance matrix departs from being euclidean
-        # if nef is 0 metrics are euclidean
-        neg = 0
-        sum = 0
-        for i in lam:
-            if i < 0:
-                neg = neg + abs(i)
-            sum = sum + abs(i)
-        NEF = neg / sum
-        print("NEF " + str(NEF))
-
     def run(self):
 
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
@@ -40,13 +28,21 @@ class compare():
 
         mds=mds_corrected.main()
         tsne= t_sne.main()
-        
-        Q = coranking.coranking_matrix(ti, X_transformed)
+        iso=isomap.main()
 
-        print(Q)
+        Qmds = coranking.coranking_matrix(ti, mds)
+        Qtsne = coranking.coranking_matrix(mat, tsne)
+        Qiso = coranking.coranking_matrix(mat, iso)
 
-        lcm = coranking.metrics.LCMC(Q, 1, 50)
-        plt.plot(lcm)
+
+        lcm_mds = coranking.metrics.LCMC(Qmds, 1, 50)
+        lcm_tsne = coranking.metrics.LCMC(Qtsne, 1, 50)
+        lcm_iso = coranking.metrics.LCMC(Qiso, 1, 50)
+        plt.plot(lcm_mds)
+        plt.plot(lcm_tsne)
+        plt.plot(lcm_iso)
+        plt.legend(["MDS", "TSNE", "ISOMAP"])
+        plt.show()
 
 
 

@@ -95,7 +95,7 @@ def plot(labels, X, components=2):
             cont += 1
 
     plt.legend()
-    plt.show()
+    #plt.show()
     return plt
 
 
