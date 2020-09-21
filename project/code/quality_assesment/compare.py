@@ -4,7 +4,7 @@ import numpy as np
 from scipy.spatial import distance
 import coranking
 import matplotlib.pyplot as plt
-
+import math
 from coranking.metrics import trustworthiness
 from coranking.metrics import continuity
 import project.code.quality_assesment.reconstruction_error as er
@@ -68,10 +68,23 @@ class compare():
         ax[2].plot(c_iso)
         ax[2].legend(["MDS", "TSNE", "ISOMAP"])
 
+
         plt.show()
 
+        print("max K LCMC")
+        print("    MDS:"+ str(np.argmax(lcm_mds)))
+        print("    tsne:"+ str(np.argmax(lcm_tsne)))
+        print("    isomap:"+ str(np.argmax(lcm_iso)))
 
+        print("max K Trustworthiness")
+        print("    MDS:"+ str(np.argmax(t_mds)))
+        print("    tsne:"+ str(np.argmax(t_tsne)))
+        print("    isomap:"+ str(np.argmax(t_iso)))
 
+        print("max K Continuity")
+        print("    MDS:"+ str(np.argmax(c_mds)))
+        print("    tsne:"+ str(np.argmax(c_tsne)))
+        print("    isomap:"+ str(np.argmax(c_iso)))
 
 def main():
     comp = compare()
