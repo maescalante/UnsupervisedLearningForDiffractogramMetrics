@@ -37,13 +37,13 @@ class Graph:
         plt.subplot(111)
         nx.draw(self.g, node_color=values, font_color='white')
         plt.legend(handles=[
-            mpatches.Patch(color='yellow', label='label 1'),
-            mpatches.Patch(color='green', label='label 2'),
-            mpatches.Patch(color='blue', label='label 3'),
-            mpatches.Patch(color='red', label='label 4'),
-            mpatches.Patch(color='purple', label='label 5'),
-            mpatches.Patch(color='grey', label='label 6'),
-            mpatches.Patch(color='orange', label='label 7')])
+            mpatches.Patch(color='#FDE725', label='Ag2Se'),
+            mpatches.Patch(color='#440154', label='Si'),
+            mpatches.Patch(color='#35B779', label='Cu2Se'),
+            mpatches.Patch(color='#21918C', label='CuSe'),
+            mpatches.Patch(color='#90D743', label='AgSe'),
+            mpatches.Patch(color='#31688E', label='Ti'),
+            mpatches.Patch(color='#443983', label='TiN')])
         plt.savefig(self.path_to_results + 'graph.png')
         if show:
             plt.show()
