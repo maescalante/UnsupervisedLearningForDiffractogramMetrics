@@ -14,6 +14,7 @@ from project.code.dimensonality_reduction import t_sne
 from project.code.dimensonality_reduction import isomap
 from scipy.spatial import distance
 import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
 
 class compare():
 
@@ -25,6 +26,9 @@ class compare():
     def intra_inter_class(self, title,points,labels):
         # dst = distance.euclidean(a, b)
         label_dict = fun.create_dictionary(labels)
+        scaler = MinMaxScaler()
+        scaler.fit(points)
+        points= scaler.transform (points)
 
         dic_intra={}
         dic_inter={}
@@ -54,7 +58,7 @@ class compare():
               #  plt.plot(x,y)
         plt.legend()
         plt.title(title)
-
+        print (dic_intra)
         return (dic_inter, dic_intra)
 
     def plot_quality(self,inter_mds, intra_mds, inter_tsne, intra_tsne, inter_iso, intra_iso):
@@ -70,6 +74,7 @@ class compare():
         tsne=[]
         iso=[]
         for key in intra_mds:
+
             mds.append(intra_mds[key])
             tsne.append(intra_tsne[key])
             iso.append(intra_iso[key])
@@ -100,7 +105,7 @@ class compare():
 
 
     def run(self):
-        fig,ax=plt.subplots(1,3)
+
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
         ti = fun.to_distance_matrix(mat)
@@ -108,6 +113,10 @@ class compare():
         mds=mds_corrected.main(0)
         tsne= t_sne.main(0)
         iso=isomap.main(0)
+
+
+        #data= np.concatenate((mds, iso))
+        #data = np.concatenate((data, tsne))
 
         inter_mds, intra_mds=self.intra_inter_class("mds",mds,labels)
         inter_tsne, intra_tsne= self.intra_inter_class("tsne",tsne, labels)
@@ -122,6 +131,7 @@ class compare():
         lcm_mds = coranking.metrics.LCMC(Qmds, 1, 50)
         lcm_tsne = coranking.metrics.LCMC(Qtsne, 1, 50)
         lcm_iso = coranking.metrics.LCMC(Qiso, 1, 50)
+        fig, ax = plt.subplots(1, 3)
         ax[0].set_title("LCMC")
         ax[0].set(xlabel='K', ylabel='LCMC')
         ax[0].plot(lcm_mds)

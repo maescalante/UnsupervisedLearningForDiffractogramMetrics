@@ -16,7 +16,7 @@ class ISOMAP():
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
 
-        embedding = Isomap(n_neighbors=91, n_components=14, metric='precomputed')
+        embedding = Isomap(n_neighbors=91, n_components=2, metric='precomputed')
 
         X_transformed = embedding.fit_transform(mat)
         if plot_flag==1:
