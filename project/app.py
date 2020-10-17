@@ -1,5 +1,6 @@
 from project.code.dimensonality_reduction import pca, t_sne, isomap, mds, mds_corrected
-from project.code.clustering import hierarchical, k_means, k_medoids, results_visualization
+from project.code.clustering import hierarchical, k_means, k_medoids
+from project.code import results_visualization
 from project.code.in_development import chemistry, database
 from project.code.diffractogram_metrics import distance_matrix_creator
 from project.code.in_development import triangle_inequality
