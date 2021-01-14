@@ -1,7 +1,4 @@
-import math
-import project.code.quality_assesment.reconstruction_error as er
 import numpy as np
-from scipy.spatial.distance import squareform
 from scipy import linalg
 from numpy.linalg import norm
 

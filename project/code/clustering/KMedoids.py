@@ -3,7 +3,7 @@ import random
 
 class KMedoids:
 
-    def __init__(self, iterations=1000, medoids=5):
+    def __init__(self, iterations=1000, medoids=14):
         self.medoids = medoids
         self.iterations = iterations
         self.matrix = []

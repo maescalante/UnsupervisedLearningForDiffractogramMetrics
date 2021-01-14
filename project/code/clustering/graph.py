@@ -1,7 +1,8 @@
 import networkx as nx
 import matplotlib.patches as mpatches
-import matplotlib.pyplot as plt
 from project.code import general_functions
+from matplotlib import pyplot as plt
+
 
 class Graph:
 
@@ -44,7 +45,9 @@ class Graph:
             mpatches.Patch(color='#90D743', label='AgSe'),
             mpatches.Patch(color='#31688E', label='Ti'),
             mpatches.Patch(color='#443983', label='TiN')])
-        plt.savefig(self.path_to_results + 'graph.png')
+        plt.title("Graph representation", fontweight="bold", fontsize=20)
+        plt.xlabel("label")
+        plt.savefig(self.path_to_results + 'graph.png', dpi=300)
         if show:
             plt.show()
 

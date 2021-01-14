@@ -1,11 +1,7 @@
 from project.code import general_functions as fun
-from project.code.dimensonality_reduction.sne_raw import SNE_RAW
+
 from sklearn.manifold import TSNE
 import numpy as np
-from coranking.metrics import trustworthiness
-import project.code.quality_assesment.reconstruction_error as er
-import project.code.quality_assesment.rank_based_criteria as rbc
-import coranking
 import project.code.quality_assesment.reconstruction_error as er
 class Sne():
 

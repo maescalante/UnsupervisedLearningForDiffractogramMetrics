@@ -3,6 +3,7 @@ import numpy as np
 from project.code import general_functions as fun
 import project.code.quality_assesment.reconstruction_error as er
 
+
 class Pca():
 
     def __init__(self):
@@ -16,18 +17,18 @@ class Pca():
         pca = PCA(n_components=2)
         principalComponents = pca.fit_transform(mat)
 
-
         plt = fun.plot(labels, principalComponents)
 
         plt.savefig(self.path_to_results + 'pca.png')
         print('Error: ', str(er.error(mat, principalComponents)) + '%')
 
         seed3d = np.random.RandomState(seed=5)
-        embedding3d = PCA(n_components=3,  random_state=seed3d)
+        embedding3d = PCA(n_components=3, random_state=seed3d)
         X_transformed3d = embedding3d.fit_transform(mat)
         plt3d = fun.plot(labels, X_transformed3d, components=3)
         plt3d.savefig(self.path_to_results + 'pca3D.png')
         print('Error: ', str(er.error(mat, X_transformed3d, components=3)) + '%')
+
 
 def main():
     pca = Pca()

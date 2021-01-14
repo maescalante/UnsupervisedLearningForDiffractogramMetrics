@@ -1,8 +1,6 @@
 import csv
 import matplotlib.pyplot as plt
 import random
-import math
-import numpy as np
 
 
 # Function for importing a distance matrix from a cvs file into a python matrix
@@ -83,7 +81,7 @@ def plot(labels, X, components=2):
 
                 if components == 2:
                     plt.plot(X[j - 1, 0], X[j - 1, 1], 'o', c=col)
-                    plt.annotate(str(cont), xy=(X[j - 1, 0], X[j - 1, 1]))
+
                 elif components == 3:
                     ax.scatter3D(X[j - 1, 0], X[j - 1, 1], X[j - 1, 2], 'o', color=col)
                     x = X[j - 1, 0]

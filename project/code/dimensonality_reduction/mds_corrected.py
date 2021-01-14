@@ -1,13 +1,7 @@
 from project.code import general_functions as fun
 from sklearn.manifold import MDS
 import numpy as np
-from scipy.spatial import distance
-import coranking
-import matplotlib as plt
-from nose import tools as nose
-from coranking.metrics import trustworthiness
 import project.code.quality_assesment.reconstruction_error as er
-import project.code.quality_assesment.rank_based_criteria as rbc
 class mds_raw():
 
     def __init__(self):
