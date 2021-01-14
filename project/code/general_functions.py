@@ -214,3 +214,53 @@ def to_distance_matrix(dissimilarity_mat):
                 else:
                     dissimilarity_mat[i][j]=dissimilarity_mat[i][j]+c
         return dissimilarity_mat
+
+def plot3together(labels, a,b,c,t1,t2,t3, components=2):
+    """
+    plots the data :v
+    :param components: plots in 2D or 3D
+    :param labels: dictionary with index of every label
+    :param X: X after Dimensionality reduction
+    """
+
+    label_dict = create_dictionary(labels)
+
+    fig, ax = plt.subplots(1, 3)
+
+    for key in label_dict:
+        col = randomColor()
+        label = key
+
+        flag = 0
+        cont = 0
+        for j in label_dict[key]:
+            if flag == 0:
+                if components == 2:
+                    ax[0].plot(a[j - 1, 0], a[j - 1, 1], 'o', c=col, label=label)
+                    ax[1].plot(b[j - 1, 0], b[j - 1, 1], 'o', c=col, label=label)
+                    ax[2].plot(c[j - 1, 0], c[j - 1, 1], 'o', c=col, label=label)
+
+                flag = 1
+            else:
+
+                if components == 2:
+                    ax[0].plot(a[j - 1, 0], a[j - 1, 1], 'o', c=col)
+                    ax[1].plot(b[j - 1, 0], b[j - 1, 1], 'o', c=col)
+                    ax[2].plot(c[j - 1, 0], c[j - 1, 1], 'o', c=col)
+                  #  plt.annotate(str(cont), xy=(X[j - 1, 0], X[j - 1, 1]))
+
+
+            cont += 1
+    ax[0].set_title(t1,fontweight='bold')
+    ax[1].set_title(t2 ,fontweight='bold')
+    ax[2].set_title(t3,fontweight='bold')
+    plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
+
+
+    for axi in ax.flat:
+
+        axi.yaxis.set_major_locator(plt.MaxNLocator(3))
+        axi.xaxis.set_major_locator(plt.MaxNLocator(3))
+
+    plt.show()
+    return plt

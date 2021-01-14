@@ -12,12 +12,22 @@ class ISOMAP():
         self.currentFile = 'DM  - D_PP - p_min 3 - delta 0.5 - q1 -5 - q2 -0.5.csv'
 
     def run(self,plot_flag=1):
-        seed = np.random.RandomState(seed=1)
+        seed = np.random.RandomState(seed=2)
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
+        #best=1
+        #minErr=10000
+        #for i in range (1,92):
 
-        embedding = Isomap(n_neighbors=91, n_components=2, metric='precomputed')
+         #   embedding = Isomap(n_neighbors=i, n_components=2, metric='precomputed')
+          #  X_transformed = embedding.fit_transform(mat)
 
+           # erAct=er.error(mat, X_transformed)
+            #if (erAct<minErr):
+             #   best=i
+              #  minErr=erAct
+        #print(best)
+        embedding = Isomap(n_neighbors=29, n_components=2, metric='precomputed')
         X_transformed = embedding.fit_transform(mat)
         if plot_flag==1:
             plt = fun.plot(labels, X_transformed)

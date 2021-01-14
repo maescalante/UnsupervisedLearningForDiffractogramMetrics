@@ -44,8 +44,6 @@ class compare():
             average_pos[key]= [number / len(lis) for number in av]
             dic_intra[key]=tot/(len(lis)**2)
 
-
-
        # print(average_pos)
 
         plt.figure()
@@ -59,11 +57,30 @@ class compare():
         plt.legend()
         plt.title(title)
         print (dic_intra)
-        return (dic_inter, dic_intra)
+        return (dic_inter, dic_intra, average_pos)
 
-    def plot_quality(self,inter_mds, intra_mds, inter_tsne, intra_tsne, inter_iso, intra_iso):
+    def plot3Inter(self, average_pos1, average_pos2, average_pos3):
+        fig, ax = plt.subplots(1, 3)
+        for key in average_pos1:
+            col = fun.randomColor()
+            ax[0].plot(average_pos1[key][0], average_pos1[key][1], 'o', c=col, label=key)
+            ax[1].plot(average_pos2[key][0], average_pos2[key][1], 'o', c=col, label=key)
+            ax[2].plot(average_pos3[key][0], average_pos3[key][1], 'o', c=col, label=key)
+        ax[0].set_title("MDS",fontweight='bold')
+        ax[1].set_title("TSNE",fontweight='bold')
+        ax[2].set_title("ISOMAP",fontweight='bold')
+        for axi in ax.flat:
+            axi.yaxis.set_major_locator(plt.MaxNLocator(3))
+            axi.xaxis.set_major_locator(plt.MaxNLocator(3))
+        plt.legend(bbox_to_anchor=(1.04, 1), loc="upper left")
 
+        plt.show()
 
+    def plot_quality(self, intra_mds,  intra_tsne,  intra_iso):
+
+        col = "#67B34E"
+        col2="#DE7E59"
+        col3 ="#4353DE"
         n_groups=7
         fig, ax = plt.subplots()
         index = np.arange(n_groups)
@@ -78,26 +95,31 @@ class compare():
             mds.append(intra_mds[key])
             tsne.append(intra_tsne[key])
             iso.append(intra_iso[key])
-        print(iso)
-        print(tsne)
-        print(mds)
+
         rects1 = plt.bar(index , mds, bar_width,
                          alpha=opacity,
-                         color='b',
+                         color=col,
                          label='MDS')
         rects2 = plt.bar(index+bar_width, tsne, bar_width,
                          alpha=opacity,
-                         color='g',
+                         color=col2,
                          label='TSNE')
         rects3 = plt.bar(index+2*bar_width, iso, bar_width,
                          alpha=opacity,
-                         color='r',
-                         label='ISO')
+                         color=col3,
+                         label='ISOMAP')
+        locs, labels = plt.xticks()
+        ticks= list(intra_mds.keys())
+        ticks.insert(0,"")
+        new_xticks = ticks
+        plt.xticks(locs, new_xticks, horizontalalignment='center')
         plt.xlabel('Clase')
         plt.ylabel('Distancia Intra-Clase')
-        plt.title('Distancia Intra Clase')
+        plt.title('Distancia Intra Clase', fontweight='bold')
         #plt.xticks(index + bar_width, ('A', 'B', 'C', 'D'))
         plt.legend()
+
+        ax.yaxis.set_major_locator(plt.MaxNLocator(3))
 
         plt.tight_layout()
         plt.show()
@@ -113,16 +135,25 @@ class compare():
         mds=mds_corrected.main(0)
         tsne= t_sne.main(0)
         iso=isomap.main(0)
+        scaler = MinMaxScaler()
+        scaler.fit(mds)
+        mds = scaler.transform(mds)
 
+        scaler = MinMaxScaler()
+        scaler.fit(tsne)
+        tsne = scaler.transform(tsne)
 
-        #data= np.concatenate((mds, iso))
-        #data = np.concatenate((data, tsne))
+        scaler = MinMaxScaler()
+        scaler.fit(iso)
+        iso = scaler.transform(iso)
 
-        inter_mds, intra_mds=self.intra_inter_class("mds",mds,labels)
-        inter_tsne, intra_tsne= self.intra_inter_class("tsne",tsne, labels)
-        inter_iso, intra_iso=self.intra_inter_class("isomap",iso, labels)
+        fun.plot3together(labels,mds,tsne,iso,"MDS","TSNE", "ISOMAP")
 
-        self.plot_quality(inter_mds, intra_mds, inter_tsne, intra_tsne, inter_iso, intra_iso)
+        inter_mds, intra_mds, average_pos1=self.intra_inter_class("mds",mds,labels)
+        inter_tsne, intra_tsne, average_pos2= self.intra_inter_class("tsne",tsne, labels)
+        inter_iso, intra_iso, average_pos3=self.intra_inter_class("isomap",iso, labels)
+        self.plot3Inter(average_pos1,average_pos2,average_pos3)
+        self.plot_quality( intra_mds, intra_tsne,  intra_iso)
 
         Qmds = coranking.coranking_matrix(ti, mds)
         Qtsne = coranking.coranking_matrix(mat, tsne)

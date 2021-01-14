@@ -24,4 +24,4 @@ def error(m, x, components=2):
     distancias = np.array(distancias, dtype=np.float64)
     m1 = normalizar(distancias)
     m2 = normalizar(m)
-    return round(100 * sum(sum(abs(np.subtract(m1, m2)))) / (91 * 91), 2)
+    return round(100 * sum(sum((np.subtract(m1, m2))**2)) / (91 * 91), 2)
