@@ -28,7 +28,7 @@ def readMatrix(filename):
 
     return matrix, labels
 
-
+#function to create a dictionary for sample labels
 def create_dictionary(labels):
     """
     creates a dictionary with key label and value a list of the index that correspond to the key label
@@ -54,7 +54,7 @@ def create_dictionary(labels):
 
 def plot(labels, X, components=2):
     """
-    plots the data :v
+    plots the data including color for labels and numbers for samples
     :param components: plots in 2D or 3D
     :param labels: dictionary with index of every label
     :param X: X after Dimensionality reduction
@@ -158,7 +158,7 @@ def randomColor():
     g = random.random()
     color = (r, g, b)
     return color
-
+#set diagonal of matrix to 0
 def diag_zeros(mat):
     N = len(mat)
     for i in range(0, N):
@@ -167,7 +167,7 @@ def diag_zeros(mat):
                  mat[i][j] = 0
 
     return mat
-
+# check traingle inequality
 def triangle_inequality(mat):
         tc = True
         lab = []
@@ -191,7 +191,7 @@ def triangle_inequality(mat):
                 round(cont / total_t * 100, 5)) + "%")
 
 
-
+# get constant c to correct triangle inequality
 def const_c( mat):
 
         maxi = 0
@@ -203,7 +203,7 @@ def const_c( mat):
                     if val>maxi:
                         maxi=val
         return maxi
-
+#correct triangle inequality
 def to_distance_matrix(dissimilarity_mat):
         c=const_c(dissimilarity_mat)
         N=len(dissimilarity_mat)
@@ -214,7 +214,7 @@ def to_distance_matrix(dissimilarity_mat):
                 else:
                     dissimilarity_mat[i][j]=dissimilarity_mat[i][j]+c
         return dissimilarity_mat
-
+# plot for comparing 3 methods together
 def plot3together(labels, a,b,c,t1,t2,t3, components=2):
     """
     plots the data :v
