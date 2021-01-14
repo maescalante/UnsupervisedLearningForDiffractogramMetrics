@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from project.code.dimensonality_reduction.Reduction import Reduction
 from project.code.clustering import hierarchical, k_medoids
+from project.code.clustering.graph import Graph
 
 
 class results:
@@ -16,6 +17,10 @@ class results:
         mat, labels = fun.readMatrix(self.path_to_file + self.currentFile)
         mat = np.array(mat, dtype=np.float64)
 
+        # Visualización 0 creacion de un grafo para observar las agrupaciones
+        Graph(labels).generate(mat, normalized=True, show=True)
+
+        """
         # visualización 1 matriz con mapa de calor
         plt.imshow(mat)
         plt.colorbar()
@@ -34,6 +39,7 @@ class results:
         # Visualización 6 hierarchical
 
         hierarchical.Hierarchical().run()
+        """
 
 
 def main():
